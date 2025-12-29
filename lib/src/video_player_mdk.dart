@@ -556,4 +556,21 @@ class MdkVideoPlayerPlatform extends VideoPlayerPlatform {
     }
     player.setBoxFitToVideo(fit: fit, width: width, height: height);
   }
+
+  /// 设置字幕文本回调
+  /// [callback] 回调函数，参数为 (开始时间秒, 结束时间秒, 字幕文本行列表)
+  /// 传入 null 取消回调
+  void setSubtitleTextCallback(
+    int playerId,
+    void Function(double start, double end, List<String> text)? callback,
+  ) {
+    _players[playerId]?.onSubtitleText(callback);
+  }
+
+  /// 设置是否由 mdk 渲染字幕
+  /// [render] 为 true 时 mdk 渲染字幕，为 false 时禁用 mdk 字幕渲染
+  /// 禁用后可通过 setSubtitleTextCallback 获取字幕文本自行渲染
+  void setSubtitleRender(int playerId, bool render) {
+    _players[playerId]?.setProperty('subtitle', render ? '1' : '0');
+  }
 }

@@ -221,4 +221,26 @@ extension FVPControllerExtensions on VideoPlayerController {
     _platform.setBoxFitToVideo(_getId(this),
         fit: fit, width: width, height: height);
   }
+
+  /// 设置字幕文本回调
+  /// 当 mdk 解码到文本字幕时会调用此回调
+  /// [callback] 回调函数，参数为 (开始时间秒, 结束时间秒, 字幕文本行列表)
+  /// 传入 null 取消回调
+  ///
+  /// 注意：此回调仅对文本字幕有效（如 srt, ass, ssa 等）
+  /// 图形字幕（如 PGS, DVB）不会触发此回调
+  void onSubtitleText(
+      void Function(double start, double end, List<String> text)? callback) {
+    _platform.setSubtitleTextCallback(_getId(this), callback);
+  }
+
+  /// 设置是否由 mdk 渲染字幕
+  /// [render] 为 true 时 mdk 渲染字幕（默认行为）
+  /// [render] 为 false 时禁用 mdk 字幕渲染
+  ///
+  /// 当使用 Flutter 自行渲染字幕时，应设置为 false 以避免重复显示
+  /// 配合 onSubtitleText 回调使用
+  void setSubtitleRender(bool render) {
+    _platform.setSubtitleRender(_getId(this), render);
+  }
 }
